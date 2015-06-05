@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:background="@drawable/background"
+    android:baselineAligned="false"
+    android:gravity="top"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/flipkart"
+        android:background="@drawable/flipkart"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:id="@+id/spinner"
+        android:layout_below="@+id/flipkart"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        android:background="#B6B6B6"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_centerHorizontal="true"
+        android:entries="@array/language_arrays"
+        android:prompt="@string/language_prompt" />
+
+    <EditText
+        android:id="@+id/editText"
+        android:background="#D6D6D6"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp" />
+
+    <Button
+        android:id="@+id/button"
+        android:text="SEARCH"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:background="#FE9A2E"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/editText"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
