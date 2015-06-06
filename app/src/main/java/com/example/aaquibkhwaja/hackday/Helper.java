@@ -7,6 +7,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,8 +51,8 @@ public class Helper {
 
 //                https://translate.google.com/translate_a/single?client=z&sl=en&tl=hi-CN&ie=UTF-8&oe=UTF-8&dt=t&dt=rm&q=red%20shirt
 //               https://inputtools.google.com/request?text=dheeru bhai is the man&itc=hi-t-i0-und&num=10&cp=0&cs=1&ie=utf-8&oe=utf-8&app=test
-            String LanguageOutput = inputToolOutput(InputString, LanCode);
-            OutputString = translate(LanguageOutput, LanCode);
+       //     String LanguageOutput = inputToolOutput(InputString, LanCode);
+            OutputString = translate(InputString, LanCode);
         } catch (Exception ex) {
             System.out.println("Exception = " + ex.toString());
             ex.printStackTrace();
@@ -58,13 +61,13 @@ public class Helper {
         return OutputString;
     }
 
-    public String inputToolOutput(String input, String LanCode)
-    {
+    public String[] inputToolOutput(String input, String lan) throws JSONException {
         String input1 = input.replaceAll(" ", "%20");
         System.out.println("input to inputTool = " + input);
+        lan = LanMap.get(lan);
         StringBuilder url2 = new StringBuilder("https://inputtools.google.com/request?");
         url2.append("text=" + input1);
-        url2.append("&itc=" + LanCode + "-t-i0-und");
+        url2.append("&itc=" + lan + "-t-i0-und");
         url2.append("&num=10");
         url2.append("&cp=0");
         url2.append("&cs=1");
@@ -80,9 +83,32 @@ public class Helper {
                 called = true;
             }
         }
-        String OutputString = finalResult.split("\"")[5];
-        return OutputString;
+        String OutputString = finalResult;
+
+        JSONArray JO = new JSONArray(OutputString);
+        System.out.println("JO = " + JO);
+        System.out.println("JO[1] = " + JO.get(1));
+        JSONArray JO1 = new JSONArray(JO.get(1).toString());
+        System.out.println("JO1 = " + JO1);
+        System.out.println("JO[1][1] = " + new JSONArray(JO1.get(0).toString()).get(1));
+
+        JSONArray Output = new JSONArray(new JSONArray(JO1.get(0).toString()).get(1).toString());
+        String result[] = new String[Output.length()];
+        int size;
+        size = Output.length();
+        for (int i = 0; i < Output.length() && i < 5; i++) {
+            System.out.println("Output(" + i + ") = " + Output.get(i).toString());
+            result[i] = Output.get(i).toString();
+            if (i == 4) {
+                size = 4;
+            }
+        }
+
+        System.out.println("result = " + result.toString());
+
+        return result;
     }
+
 
     public String translate(String input, String LanCode) {
         String input1 = input.replaceAll(" ", "%20");

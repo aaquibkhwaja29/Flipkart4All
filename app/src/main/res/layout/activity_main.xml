@@ -22,7 +22,7 @@
         android:prompt="@string/language_prompt"
         />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/editText"
         android:textCursorDrawable="@drawable/cursor_color"
         android:background="#33FF0000"
