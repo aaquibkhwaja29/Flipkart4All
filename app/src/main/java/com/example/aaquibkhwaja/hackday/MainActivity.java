@@ -9,9 +9,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends Activity {
@@ -54,6 +57,19 @@ public class MainActivity extends Activity {
 
     public void addListenerOnSpinnerItemSelection() {
         spinner = (Spinner)findViewById(R.id.spinner);
+        ArrayList<String> array = new ArrayList<String>();
+        array.add("English");
+        array.add("हिन्दी");
+        array.add("ಕನ್ನಡ");
+        array.add("বাঙালি");
+        array.add("মালায়ালম");
+        array.add("தமிழ்");
+        array.add("తెలుగు");
+        array.add("मराठी");
+        array.add("español");
+        ArrayAdapter<String> mAdapter;
+        mAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, array);
+        spinner.setAdapter(mAdapter);
         spinner.setOnItemSelectedListener(new CustomOnItemSelectedListener());
     }
 
