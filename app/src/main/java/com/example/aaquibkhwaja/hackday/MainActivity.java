@@ -33,17 +33,14 @@ public class MainActivity extends Activity {
         }
 
         public Filter getFilter() {
-
             return new Filter()
             {
                 @Override
                 protected FilterResults performFiltering(CharSequence charSequence)
                 {
                     FilterResults results = new FilterResults();
-
                     //If there's nothing to filter on, return the original data for your list
                     ArrayList<String> filterResultsData = new ArrayList<String>();
-
 
                     results.values = lanResult;
                     results.count = size;
@@ -57,9 +54,8 @@ public class MainActivity extends Activity {
                     filteredData = (java.lang.String[]) filterResults.values;
                     notifyDataSetChanged();
                 }
-            };    }
-
-
+            };
+        }
     }
 
     String lanResult[] = new String[5];
@@ -85,6 +81,7 @@ public class MainActivity extends Activity {
 
 
         Button button = (Button)findViewById(R.id.button);
+        //Button clear = (Button)findViewById(R.id.calc_clear_txt_Prise);
         final Helper h = new Helper();
 
         final autoComplete<String> adapter = new autoComplete<>(this,android.R.layout.simple_dropdown_item_1line);
@@ -107,52 +104,42 @@ public class MainActivity extends Activity {
                         }
                     }
                     if (s.toString().length() == 0) {
-                        System.out.println("yes");
                         return;
                     }
                     if (s.charAt(s.length() - 1) == ' ') {
-                        System.out.println("final = " + finalTextString + "len = " + (finalTextString.split(" ").length - 1) + " flag = " + flag[finalTextString.split(" ").length - 1]);
                         if (!flag[s.toString().split(" ").length - 1]) {
-                            System.out.println("Entered here ");
                             String input = s.toString();
                             String arr[] = input.split(" ");
                             String last = arr[arr.length - 1];
-                            System.out.println("last = " + last);
                             String language1 = spinner.getSelectedItem().toString();
                             lanResult = h.inputToolOutput(last, language1);
-                            System.out.println("len = " + arr.length + " lanRes = " + lanResult[0]);
                             arr[arr.length - 1] = lanResult[0];
                             finalTextString = "";
+
                             for (String a : arr) {
-                                System.out.println("a = " + a);
                                 finalTextString = finalTextString + a + " ";
                             }
-                            System.out.println("fibal = " + finalTextString);
-                            System.out.println("Error here0");
+
                             flag[cnt++] = true;
                             editText.setText(finalTextString);
-                            System.out.println("Error here1");
                             editText.setSelection(finalTextString.length());
-                            System.out.println("Error here2");
                         } else {
                         }
                     } else {
                         adapter.clear();
-                        System.out.println("s = " + s.toString());
+
                         String input = s.toString();
                         String arr[] = input.split(" ");
                         String last = arr[arr.length - 1];
                         String language1 = spinner.getSelectedItem().toString();
                         lanResult = h.inputToolOutput(last, language1);
-                        System.out.println("final = " + finalTextString);
+
                         for (String a : lanResult) {
                             String toadd = finalTextString + a;
-                            System.out.println("toadd = " + toadd);
                             adapter.add(toadd);
                         }
 
                         adapter.notifyDataSetChanged();
-                        System.out.println("adapter = " + adapter);
                         editText.setAdapter(adapter);
                         editText.showDropDown();
                     }
@@ -168,6 +155,13 @@ public class MainActivity extends Activity {
         editText.setAdapter(adapter);
 
 
+        /*clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((AutoCompleteTextView)editText).setText("");
+            }
+        });*/
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,16 +171,18 @@ public class MainActivity extends Activity {
 
                 String query = h.getResult(input, language1);
 
-                System.out.println("query " + query);
+                //System.out.println("query " + query);
 
                 //final String query = editText.getText().toString();
 
                 query.replace(" ", "+");
-
-                Uri uri = Uri.parse("http://dl.flipkart.com/dl/search?q=" + query + "&query=" + query + "&sid=all");
-
-                Intent launchIntent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(launchIntent);
+                try {
+                    Uri uri = Uri.parse("http://dl.flipkart.com/dl/search?q=" + query + "&query=" + query + "&sid=all");
+                    Intent launchIntent = new Intent(Intent.ACTION_VIEW, uri);
+                    startActivity(launchIntent);
+                } catch (Exception e) {
+                    //System.out.println("Exception = " + e.toString());
+                }
             }
         });
     }
@@ -234,7 +230,7 @@ public class MainActivity extends Activity {
     public class CustomOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
 
         public void onItemSelected(AdapterView<?> parent, View view, int pos,long id) {
-            System.out.println("ITEM SELECTED = " + parent.getItemAtPosition(pos).toString());
+            //System.out.println("ITEM SELECTED = " + parent.getItemAtPosition(pos).toString());
 // Toast.makeText(parent.getContext(),
 // "OnItemSelectedListener : " + parent.getItemAtPosition(pos).toString(),
 // Toast.LENGTH_SHORT).show();
